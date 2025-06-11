@@ -10,7 +10,7 @@ class Set : public AbstractList{
 		Set();
 		virtual ~Set();
 
-		void addAll(List& l);			//TODO: Remove this Legacy Denial Code Smell
+		void Setify(List& l);			//TODO: Remove this Legacy Denial Code Smell
 		void add(string element);
 
 		bool contains(string element);	//TODO: Generalize This for Set and List

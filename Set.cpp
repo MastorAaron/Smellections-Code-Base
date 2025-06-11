@@ -15,7 +15,7 @@ void Set::add(string element){
 	if(contains(element))
 		return;
 
-	add(element);
+	AbstractList::add(element);
 }
 bool Set::contains(string element){
 	for(int i = 0; i < m_size; i++)
@@ -24,52 +24,8 @@ bool Set::contains(string element){
 	return false;
 }
 
-bool Set::remove(string element){
-	if(m_readOnly)
-		return false;
-
-	for(int i = 0; i < getSize(); i++){
-		if(m_elements[i] == element){
-			m_elements[i] = "";
-			m_capacity = m_size - 1;
-			string* newElements = new string[m_capacity];
-			
-			int k = 0;
-			for(int j = 0; j < m_size; j++){
-				if(m_elements[j] != "")
-					newElements[k++] = m_elements[j];
-			}
-
-			m_size--;
-			delete[] m_elements;
-			m_elements = newElements;
-			return true;
-		}
-	}
-	return false;
-}
-
-string Set::getEle(int index){
-	if(index >= m_size){
-		// ArrayIndexOutOfBoundsException e;
-		string e ="Array Index Out Of Bounds Exception";
-		throw e;
-	}
-	return m_elements[index];
-}
-
-void Set::addAll(List& l){
+void Set::Setify(List& l){
 	for(int i=0; i < l.getSize(); i++){
-		if(!contains(l.getEle(i))){
-			m_elements[m_size++] = l.getEle(i);
-		}
+		add(l.getEle(i));
 	}
-}
-
-int Set::getCapacity(){
-	return m_capacity;
-}
-
-void Set::setReadOnly(bool b){
-	m_readOnly = b;
 }

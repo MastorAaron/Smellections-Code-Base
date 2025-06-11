@@ -18,7 +18,5 @@ class List : public AbstractList{
 	private:
 		friend class ListTest;
 		enum {INITIAL_CAPACITY = 10};
-		string* m_elements;
-		int m_capacity;
 };
 #endif // LIST_H

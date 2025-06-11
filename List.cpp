@@ -4,7 +4,7 @@ using namespace std;
 
 List::List() : AbstractList() {}
 
-List::List(){
+List::~List(){
 	delete[] m_elements;
 }
 
