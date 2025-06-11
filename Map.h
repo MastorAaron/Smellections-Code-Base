@@ -4,11 +4,11 @@
 #include "List.h"
 using namespace std;
 
-class Map : public List{
+class Map : public Set{
     public:
         Map();
         virtual ~Map(); 
-        
+
         bool isEmpty();
         void add(string element);
         void add(string key, string value);
@@ -24,7 +24,7 @@ class Map : public List{
         void setReadOnly(bool b);
             
     private:
-        string *m_keys;
+        Set *m_keys;
         string *m_values;
         enum { INITIAL_CAPACITY = 10 };
         int m_capacity;

@@ -32,7 +32,7 @@ void Map::add(string key, string value){
 		int newSize = m_size + 1;
 
 		if(newSize > m_capacity){
-			string* newKeys   = new string[m_capacity + INITIAL_CAPACITY];
+			Set* newKeys   = new string[m_capacity + INITIAL_CAPACITY];
 			string* newValues = new string[m_capacity + INITIAL_CAPACITY];
 
 			m_capacity += INITIAL_CAPACITY;
