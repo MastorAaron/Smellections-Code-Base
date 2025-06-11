@@ -14,11 +14,11 @@ Map::~Map(){
 }
 
 // Do nothing because user must input key and value
-void Map::add(string element){}
+void Map::add(string element){} 					//TODO: Implement Hash?
 
 void Map::add(string key, string value){
 	if(m_readOnly)
-		cout << "Read Only: Immutable" << endl;
+		handleReadOnly();
 		return;
 
 	for(int i = 0; i < m_size; i++){
@@ -37,20 +37,17 @@ void Map::add(string key, string value){
 			memcpy(newKeys, m_keys, sizeof(m_keys));
 			memcpy(newValues, m_values, sizeof(m_values));
 
-			~Map();
+			delete[] m_keys;
+			delete[] m_values;
 
 			m_keys = newKeys;
 			m_values = newValues;
 		}
 	}
 
-		m_keys[m_size] = key;
-		m_values[m_size] = value;
-		m_size++;
-}
-
-int Map::getSize(){
-	return m_size;
+	m_keys[m_size] = key;
+	m_values[m_size] = value;
+	m_size++;
 }
 
 bool Map::remove(string key){
@@ -59,8 +56,8 @@ bool Map::remove(string key){
 
 	for(int i = 0; i < m_size; i++){
 		if(m_keys[i] == key){
-			m_keys[i] = "";
-			m_values[i] = "";
+			m_keys[i] = NULL_STR;
+			m_values[i] = NULL_STR;
 			m_size--;
 
 			return true;
@@ -71,25 +68,30 @@ bool Map::remove(string key){
 
 bool Map::contains(string value){
 	for(int i = 0; i < m_size; i++)
-		if((value == "" && m_values[i] == "")
-			|| (m_values[i] != "" && m_values[i] == value))
+		if((value == NULL_STR    && m_values[i] == NULL_STR) ||
+		   (value == m_values[i] && m_values[i] != NULL_STR ))
 			return true;
 	return false;
 }
 
 bool Map::containsKey(string key){
-	return getKey(key) != "";
+	return getKey(key) != NULL_STR;
 }
 
 string Map::getKey(string key){
 	for(int i = 0; i < m_size; i++){
-		if(m_keys[i] != "" && m_keys[i] == key){
-			return m_values[i]
+		if(m_keys[i] != NULL_STR && m_keys[i] == key){
+			return m_values[i];
 		}
 	}
-	return "";
+	return NULL_STR;
 }
 
-
-
-
+string Map::getVal(string Val){
+	for(int i = 0; i < getSize(); i++){
+		if(m_keys[i] != NULL_STR && m_keys[i] == key){
+			return m_values[i];
+		}
+	}
+	return NULL_STR;
+}

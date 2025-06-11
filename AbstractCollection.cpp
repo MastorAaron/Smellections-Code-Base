@@ -1,31 +1,21 @@
 #include "AbstractCollection.h"
+#include "AbstractList.h"
 #include "List.h"
 #include "Map.h"
 #include "Set.h"
 using namespace std;
 
 void AbstractCollection::addAll(AbstractCollection &c){
-	Set*  pSet 	= dynamic_cast<Set*> (&c);
-	List* pList = dynamic_cast<List*>(&c);
-	Map*  pMap 	= dynamic_cast<Map*> (&c);
-
-	if(pSet != NULL){
-		for(int i = 0; i < pSet->getSize(); i++){
-			if(!contains(pSet->getElmt(i))){
-				add(pSet->getElmt(i));
-			}
+	if(auto* pAbsList = dynamic_cast<AbstractList*>(&c)){
+		for(int i = 0; i < pAbsList->getSize(); i++){
+			add(pAbsList->getElmt(i));
 		}
-	}else if(pList != NULL){
-		for(int i = 0; i < pList->getSize(); i++){
-			if(!contains(pList->getElmt(i))){
-				add(pList->getElmt(i));
-			}
-		}
-	}else if(pMap != NULL){
+	}
+	auto* pMap  = dynamic_cast<Map*> (&c);
+	if(pMap != NULL){
 		for(int i = 0; i < pMap->getSize(); i++)
-			add(pMap->m_keys[i], pMap->m_values[i]);
+			add(pMap->getKey(i), pMap->getValue(i));
 	}
 }
 
-void AbstractCollection::add(string key, string value){
-}
+void AbstractCollection::add(string key, string value){}

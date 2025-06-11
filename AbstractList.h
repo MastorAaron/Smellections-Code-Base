@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const std::string NULL_STRING = "\x01\x02\x03__NULL_STRING__\x04\x05\x06";
+const std::string NULL_STR = "\x01\x02\x03__NULL_STRING__\x04\x05\x06";
 
 class AbstractList : public AbstractCollection{
     protected:
@@ -30,6 +30,7 @@ class AbstractList : public AbstractCollection{
         bool remove(string element);    
         
         int getSize();                  
+        void setSize();                  
         int getCapacity();              
         string getElmt(int i);
         
@@ -40,6 +41,7 @@ class AbstractList : public AbstractCollection{
         void copyValidStrs();
         
         void handleOutOfBounds();
+        void handleReadOnly();
 }; 
 
 AbstractList::AbstractList():
@@ -71,6 +73,10 @@ void AbstractList::handleOutOfBounds(){
     throw e;
 }
 
+void AbstractList::handleReadOnly(){
+    cout << "Read Only: Immutable" << endl;
+}
+
 int AbstractList::elmtIndex(string element){
 	for(int i = 0; i < m_size; i++)
 		if(getElmt(i) == element)
@@ -85,7 +91,7 @@ bool AbstractList::contains(string element){
 string AbstractList::getElmt(int i){
 	if(i >= m_size){
         handleOutOfBounds();
-        return NULL_STRING;
+        return NULL_STR;
     }
 	return m_elements[i];
 }
@@ -103,7 +109,7 @@ void AbstractList::copyValidStrs(){
     
     int k = 0;
 	for(int i = 0; i < m_size; i++){
-        if(m_elements[i] != NULL_STRING)
+        if(m_elements[i] != NULL_STR)
 		    newElements[k++] = m_elements[i];
 	}
     m_size = k;
@@ -113,9 +119,10 @@ void AbstractList::copyValidStrs(){
 }
 
 void AbstractList::add(string element){
-	if(m_readOnly)
+	if(m_readOnly){
+        handleReadOnly();
 		return;
-	
+    }
     growToSize();
 	copyValidStrs();
 
@@ -123,27 +130,29 @@ void AbstractList::add(string element){
 }
 
 bool AbstractList::remove(string element){
-	if(m_readOnly)
-		return false;
-
+	if(m_readOnly){
+        handleReadOnly();
+		return;
+    }
     int index = elmtIndex(element);
     if(index == - 1)
 		return false;
 
-    m_elements[index] = NULL_STRING;
+    m_elements[index] = NULL_STR;
     copyValidStrs(); // handles m_size update internally
     
     return true;
 }
 
 void AbstractList::placeAt(int i, string value){
-	if(m_readOnly)
+	if(m_readOnly){
+        handleReadOnly();
 		return;
-
+    }
 	if(i >= m_size)
 		handleOutOfBounds();
     string atIndex = getElmt(i);
-    if(atIndex != NULL_STRING){
+    if(atIndex != NULL_STR){
         cout << atIndex <<" replaced by "<< value << endl;
     }
 

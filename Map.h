@@ -4,7 +4,7 @@
 #include "Set.h"
 using namespace std;
 
-class Map : public Set{
+class Map : public AbstractList{
     public:
         Map();
         virtual ~Map(); 
@@ -18,7 +18,9 @@ class Map : public Set{
         bool containsKey(string key);
         
         int getSize();
+        void reSize(int i);
         string getKey(string key);
+        int getValue(string key);
         int getCapacity();
 
         void setReadOnly(bool b);
