@@ -23,7 +23,7 @@ class List : public AbstractList{
 
 	private:
 		friend class ListTest;
-		enum {INITIAL_CAPACITY = 10};
+		enum 	{INITIAL_CAPACITY = 10};
 		int 	m_capacity;
 		string* m_elements;
 		int 	m_size;
