@@ -2,8 +2,8 @@
 #include "ArrayIndexOutOfBoundsException.h"
 using std::string;
 
-Set::Set()
-	: m_capacity(INITIAL_CAPACITY),
+Set::Set():
+	m_capacity(INITIAL_CAPACITY),
 	m_elements(new string[INITIAL_CAPACITY]),
 	m_size(0),
 	m_readOnly(false){
@@ -18,22 +18,23 @@ bool Set::isEmpty(){
 }
 
 void Set::add(string element){
-	if(!m_readOnly){
-		if(contains(element))
+	if(m_readOnly){
+		return;
+	}
+
+	if(contains(element))
 			return;
 
-		int newSize = m_size + 1;
-		if(newSize > m_capacity){
-			m_capacity += INITIAL_CAPACITY;
-			string* newElements = new string[m_capacity];
-			for(int i = 0; i < m_size; i++)
-				newElements[i] = m_elements[i];
-			delete[] m_elements;
-			m_elements = newElements;
-		}
-		
-		m_elements[m_size++] = element;
+	int newSize = m_size + 1;
+	if(newSize > m_capacity){
+		m_capacity += INITIAL_CAPACITY;
+		string* newElements = new string[m_capacity];
+		for(int i = 0; i < m_size; i++)
+			newElements[i] = m_elements[i];
+		delete[] m_elements;
+		m_elements = newElements;
 	}
+	m_elements[m_size++] = element;
 }
 bool Set::contains(string element){
 	for(int i = 0; i < m_size; i++)
@@ -55,6 +56,7 @@ bool Set::remove(string element){
 			m_elements[i] = "";
 			m_capacity = m_size - 1;
 			string* newElements = new string[m_capacity];
+			
 			int k = 0;
 			for(int j = 0; j < m_size; j++){
 				if(m_elements[j] != "")

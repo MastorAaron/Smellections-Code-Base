@@ -3,25 +3,28 @@
 #include "AbstractSet.h"
 #include "List.h"
 #include <string>
-class Set : public AbstractSet 
-{
-public:
-	Set();
-	virtual ~Set();
-	bool isEmpty();
-	void add(std::string element);
-	bool contains(std::string element);
-	int getSize();
-	bool remove(std::string element);
-	std::string getElementAt(int index);
-	void addAll(List& l);
-	int getCapacity();
-	void setReadOnly(bool b);
-private:
-	enum {INITIAL_CAPACITY = 10};
-	int m_capacity;
-	std::string* m_elements;
-	int m_size;
-	bool m_readOnly;
+using namespace std;
+
+class Set : public AbstractSet{
+	public:
+		Set();
+		virtual ~Set();
+
+		void addAll(List& l);
+		void add(string element);
+		bool remove(string element);
+		bool contains(string element);
+		bool isEmpty();
+		int getSize();
+		
+		string getElementAt(int index);
+		int getCapacity();
+		void setReadOnly(bool b);
+	private:
+		enum {INITIAL_CAPACITY = 10};
+		int m_capacity;
+		string* m_elements;
+		int m_size;
+		bool m_readOnly;
 };
 #endif // SET_H
