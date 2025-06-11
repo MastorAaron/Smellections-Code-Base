@@ -24,6 +24,12 @@ class AbstractList : public AbstractCollection{
         string getEle(int i);
         
         void setReadOnly(bool b);
+        
+        void add(string element);
+        void reSize();
+        void copyOver();
+        
+        void handleOutOfBounds();
 }; 
 
 AbstractList::AbstractList():
@@ -32,7 +38,6 @@ AbstractList::AbstractList():
 	m_size(0),
 	m_readOnly(false){
 }
-
 
 bool AbstractList::isEmpty(){
 	return m_size == 0;
@@ -48,6 +53,12 @@ void AbstractList::setReadOnly(bool b){
 
 int AbstractList::getSize(){
 	return m_size;
+}
+
+void AbstractList::handleOutOfBounds(){
+    // ArrayIndexOutOfBoundsException e;
+    string e ="Array Index Out Of Bounds Exception";
+    throw e;
 }
 
 bool AbstractList::remove(string element){
@@ -75,12 +86,35 @@ bool AbstractList::remove(string element){
 }
 
 string AbstractList::getEle(int i){
-	if(i >= m_size){	
-		// ArrayIndexOutOfBoundsException e;
-		string e ="Array Index Out Of Bounds Exception";
-		throw e;
-	}
+	if(i >= m_size){
+        handleOutOfBounds();
+    }
 	return m_elements[i];
+}
+
+void AbstractList::reSize(){
+	int newSize = m_size + 1;
+	if(newSize > m_capacity){
+		m_capacity += INITIAL_CAPACITY;
+	}
+}
+
+void AbstractList::copyOver(){
+	string* newElements = new string[m_capacity];
+	for(int i = 0; i < m_size; i++){
+		newElements[i] = m_elements[i];
+	}
+	delete[] m_elements;
+	m_elements = newElements;
+}
+
+void AbstractList::add(string element){
+	reSize();
+	copyOver();
+	m_elements[m_size++] = element;
+
+	if(m_readOnly)
+		return;
 }
 
 

@@ -8,7 +8,6 @@ Set::~Set(){
 	delete[] m_elements;
 }
 
-
 void Set::add(string element){
 	if(m_readOnly)
 		return;
@@ -16,16 +15,7 @@ void Set::add(string element){
 	if(contains(element))
 		return;
 
-	int newSize = m_size + 1;
-	if(newSize > m_capacity){
-		m_capacity += INITIAL_CAPACITY;
-		string* newElements = new string[m_capacity];
-		for(int i = 0; i < m_size; i++)
-			newElements[i] = m_elements[i];
-		delete[] m_elements;
-		m_elements = newElements;
-	}
-	m_elements[m_size++] = element;
+	add(element);
 }
 bool Set::contains(string element){
 	for(int i = 0; i < m_size; i++)
