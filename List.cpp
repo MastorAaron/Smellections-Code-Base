@@ -4,10 +4,6 @@ using namespace std;
 
 List::List() : AbstractList() {}
 
-List::~List(){
-	delete[] m_elements;
-}
-
 void List::set(int i, string value){
 	if(m_readOnly)
 		return;

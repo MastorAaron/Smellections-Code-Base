@@ -1,12 +1,8 @@
 #include "Set.h"
 // #include "ArrayIndexOutOfBoundsException.h"
-using std::string;
+using namespace std;
 
 Set::Set(): AbstractList() {}
-
-Set::~Set(){
-	delete[] m_elements;
-}
 
 void Set::add(string element){
 	if(m_readOnly)
@@ -17,15 +13,9 @@ void Set::add(string element){
 
 	AbstractList::add(element);
 }
-bool Set::contains(string element){
-	for(int i = 0; i < m_size; i++)
-		if(m_elements[i] == element)
-			return true;
-	return false;
-}
 
 void Set::Setify(List& l){
 	for(int i=0; i < l.getSize(); i++){
-		add(l.getEle(i));
+		add(l.getElmt(i));
 	}
 }

@@ -1,14 +1,15 @@
 #ifndef ABSTRACT_LIST_H
 #define ABSTRACT_LIST_H
 #include "AbstractCollection.h"
+#include <string>
 
 class AbstractList : public AbstractCollection{
     protected:
         enum {INITIAL_CAPACITY = 10};
+        string* m_elements;
         bool m_readOnly;
         int m_size;
         int m_capacity;
-        string* m_elements;
 
     public:
         ~AbstractList();
@@ -16,17 +17,18 @@ class AbstractList : public AbstractCollection{
 
         bool isEmpty();                 //TODO: Generalize This for Set and List
         
+        int elmtIndex(string element);  //TODO: Generalize This for Set and List
         bool contains(string element);  //TODO: Generalize This for Set and List
         bool remove(string element);    //TODO: Generalize This for Set and List
         
         int getSize();                  //TODO: Generalize This for Set and List
         int getCapacity();              //TODO: Generalize This for Set and List
-        string getEle(int i);
+        string getElmt(int i);
         
         void setReadOnly(bool b);
         
         void add(string element);
-        void reSize();
+        void reSize(int scale);
         void copyOver();
         
         void handleOutOfBounds();
@@ -61,55 +63,58 @@ void AbstractList::handleOutOfBounds(){
     throw e;
 }
 
+bool AbstractList::contains(string element){
+    return elmtIndex(element) != -1;
+}
+
+int AbstractList::elmtIndex(string element){
+	for(int i = 0; i < m_size; i++)
+		if(getElmt(i) == element)
+			return i;
+	return -1;
+}
+
 bool AbstractList::remove(string element){
 	if(m_readOnly)
 		return false;
+        
+    if(!contains(element))
+		return false;
 
-	for(int i = 0; i < m_size; i++){
-		if(m_elements[i] == element){
-			m_elements[i] = "";
-			m_capacity = m_size - 1;
-			string* newElements = new string[m_capacity];
-			
-			int k = 0;
-			for(int j = 0; j < m_size; j++){
-				if(m_elements[j] != "")
-					newElements[k++] = m_elements[j];
-			}
-			m_size--;
-			delete[] m_elements;
-			m_elements = newElements;
-			return true;
-		}
-	}
-	return false;
+    reSize(-1);
+    copyOver();
+    m_size--;
+    
+    return true;
 }
 
-string AbstractList::getEle(int i){
+string AbstractList::getElmt(int i){
 	if(i >= m_size){
         handleOutOfBounds();
     }
 	return m_elements[i];
 }
 
-void AbstractList::reSize(){
-	int newSize = m_size + 1;
+void AbstractList::reSize(int scale){
+	int newSize = m_size + scale;
 	if(newSize > m_capacity){
-		m_capacity += INITIAL_CAPACITY;
+		m_capacity += INITIAL_CAPACITY; //Scale by 10s
 	}
 }
 
 void AbstractList::copyOver(){
+    int k = 0;
 	string* newElements = new string[m_capacity];
 	for(int i = 0; i < m_size; i++){
-		newElements[i] = m_elements[i];
+        if(m_elements[i] != "")
+		    newElements[k++] = m_elements[i];
 	}
 	delete[] m_elements;
 	m_elements = newElements;
 }
 
 void AbstractList::add(string element){
-	reSize();
+	reSize(1);
 	copyOver();
 	m_elements[m_size++] = element;
 
