@@ -8,25 +8,17 @@ class List : public AbstractList{
 	public:
 		List();
 		virtual ~List();
-		bool isEmpty();
 		
-		bool contains(string element);
-		bool remove(string element);
 		void add(string element);
-		
-		int getSize();
-		string get(int i);
-		int getCapacity();
+		string getEle(int i);
 		
 		void set(int i, string value);
 		void setReadOnly(bool b);
 
 	private:
 		friend class ListTest;
-		enum 	{INITIAL_CAPACITY = 10};
-		int 	m_capacity;
+		enum {INITIAL_CAPACITY = 10};
 		string* m_elements;
-		int 	m_size;
-		bool 	m_readOnly;
+		int m_capacity;
 };
 #endif // LIST_H

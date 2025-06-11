@@ -13,15 +13,12 @@ Map::~Map(){
 	delete[] m_values;
 }
 
-bool Map::isEmpty(){
-	return m_size == 0;
-}
-
 // Do nothing because user must input key and value
 void Map::add(string element){}
 
 void Map::add(string key, string value){
 	if(m_readOnly)
+		cout << "Read Only: Immutable" << endl;
 		return;
 
 	for(int i = 0; i < m_size; i++){
@@ -32,7 +29,8 @@ void Map::add(string key, string value){
 		int newSize = m_size + 1;
 
 		if(newSize > m_capacity){
-			Set* newKeys   = new string[m_capacity + INITIAL_CAPACITY];
+			Set newKeys;
+			//= new string[m_capacity + INITIAL_CAPACITY];
 			string* newValues = new string[m_capacity + INITIAL_CAPACITY];
 
 			m_capacity += INITIAL_CAPACITY;
@@ -92,10 +90,6 @@ string Map::getKey(string key){
 	return "";
 }
 
-int Map::getCapacity(){
-	return m_capacity;
-}
 
-void Map::setReadOnly(bool b){
-	m_readOnly = b;
-}
+
+

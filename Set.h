@@ -5,26 +5,25 @@
 #include <string>
 using namespace std;
 
-class Set : public AbstractSet{
+class Set : public AbstractList{
 	public:
 		Set();
 		virtual ~Set();
 
-		void addAll(List& l);
+		void addAll(List& l);			//TODO: Remove this Legacy Denial Code Smell
 		void add(string element);
+
+		bool contains(string element);	//TODO: Generalize This for Set and List
 		bool remove(string element);
-		bool contains(string element);
-		bool isEmpty();
-		int getSize();
 		
-		string getElementAt(int index);
+		string getEle(int index);
+
 		int getCapacity();
 		void setReadOnly(bool b);
+
 	private:
 		enum {INITIAL_CAPACITY = 10};
 		int m_capacity;
 		string* m_elements;
-		int m_size;
-		bool m_readOnly;
 };
 #endif // SET_H

@@ -11,14 +11,14 @@ void AbstractCollection::addAll(AbstractCollection &c){
 
 	if(pSet != NULL){
 		for(int i = 0; i < pSet->getSize(); i++){
-			if(!contains(pSet->getElementAt(i))){
-				add(pSet->getElementAt(i));
+			if(!contains(pSet->getEle(i))){
+				add(pSet->getEle(i));
 			}
 		}
 	}else if(pList != NULL){
 		for(int i = 0; i < pList->getSize(); i++){
-			if(!contains(pList->get(i))){
-				add(pList->get(i));
+			if(!contains(pList->getEle(i))){
+				add(pList->getEle(i));
 			}
 		}
 	}else if(pMap != NULL){

@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "List.h"
+#include "Set.h"
 using namespace std;
 
 class Map : public Set{
@@ -24,7 +24,8 @@ class Map : public Set{
         void setReadOnly(bool b);
             
     private:
-        Set *m_keys;
+        // Set m_keys;
+        string *m_keys;
         string *m_values;
         enum { INITIAL_CAPACITY = 10 };
         int m_capacity;

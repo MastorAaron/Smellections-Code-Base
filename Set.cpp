@@ -1,29 +1,20 @@
 #include "Set.h"
-#include "ArrayIndexOutOfBoundsException.h"
+// #include "ArrayIndexOutOfBoundsException.h"
 using std::string;
 
-Set::Set():
-	m_capacity(INITIAL_CAPACITY),
-	m_elements(new string[INITIAL_CAPACITY]),
-	m_size(0),
-	m_readOnly(false){
-}
+Set::Set(): AbstractList() {}
 
 Set::~Set(){
 	delete[] m_elements;
 }
 
-bool Set::isEmpty(){
-	return m_size == 0;
-}
 
 void Set::add(string element){
-	if(m_readOnly){
+	if(m_readOnly)
 		return;
-	}
 
 	if(contains(element))
-			return;
+		return;
 
 	int newSize = m_size + 1;
 	if(newSize > m_capacity){
@@ -43,15 +34,11 @@ bool Set::contains(string element){
 	return false;
 }
 
-int Set::getSize(){
-	return m_size;
-}
-
 bool Set::remove(string element){
 	if(m_readOnly)
 		return false;
 
-	for(int i = 0; i < m_size; i++){
+	for(int i = 0; i < getSize(); i++){
 		if(m_elements[i] == element){
 			m_elements[i] = "";
 			m_capacity = m_size - 1;
@@ -72,18 +59,19 @@ bool Set::remove(string element){
 	return false;
 }
 
-string Set::getElementAt(int index){
+string Set::getEle(int index){
 	if(index >= m_size){
-		ArrayIndexOutOfBoundsException e;
+		// ArrayIndexOutOfBoundsException e;
+		string e ="Array Index Out Of Bounds Exception";
 		throw e;
 	}
 	return m_elements[index];
 }
 
 void Set::addAll(List& l){
-	for(int i=0; i < l.size(); i++){
-		if(!contains(l.get(i))){
-			m_elements[m_size++] = l.get(i);
+	for(int i=0; i < l.getSize(); i++){
+		if(!contains(l.getEle(i))){
+			m_elements[m_size++] = l.getEle(i);
 		}
 	}
 }
