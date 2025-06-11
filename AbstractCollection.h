@@ -3,7 +3,7 @@
 #include "Collection.h"
 
 using namespace std;
-class AbstractCollection : public Collection{
+class AbstractCollection{
 	public:
 		virtual ~AbstractCollection() {};
 		void addAll(AbstractCollection& c){};

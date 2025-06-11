@@ -4,12 +4,3 @@ using namespace std;
 
 List::List() : AbstractList() {}
 
-void List::set(int i, string value){
-	if(m_readOnly)
-		return;
-
-	if(i >= m_size)
-		handleOutOfBounds();
-	
-	m_elements[i] = value;
-}

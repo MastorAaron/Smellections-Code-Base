@@ -2,8 +2,6 @@
 // #include "ArrayIndexOutOfBoundsException.h"
 using namespace std;
 
-Set::Set(): AbstractList() {}
-
 void Set::add(string element){
 	if(m_readOnly)
 		return;

@@ -1,9 +1,13 @@
 #ifndef ABSTRACT_LIST_H
 #define ABSTRACT_LIST_H
 #include "AbstractCollection.h"
-#include <string>
 
-const std::string DELETED_SENTINEL = "\x01\x02\x03__DELETED__\x04\x05\x06";
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+const std::string NULL_STRING = "\x01\x02\x03__NULL_STRING__\x04\x05\x06";
 
 class AbstractList : public AbstractCollection{
     protected:
@@ -17,19 +21,21 @@ class AbstractList : public AbstractCollection{
         ~AbstractList();
         AbstractList();
 
-        bool isEmpty();                 //TODO: Generalize This for Set and List
+        bool isEmpty();                 
         
-        int elmtIndex(string element);  //TODO: Generalize This for Set and List
-        bool contains(string element);  //TODO: Generalize This for Set and List
-        bool remove(string element);    //TODO: Generalize This for Set and List
+        void placeAt(int i, string value);
+        int elmtIndex(string element);  
         
-        int getSize();                  //TODO: Generalize This for Set and List
-        int getCapacity();              //TODO: Generalize This for Set and List
+        bool contains(string element);  
+        bool remove(string element);    
+        
+        int getSize();                  
+        int getCapacity();              
         string getElmt(int i);
         
         void setReadOnly(bool b);
         
-        void add(string element);
+        virtual void add(string element);
         void growToSize(int scale);
         void copyValidStrs();
         
@@ -79,6 +85,7 @@ bool AbstractList::contains(string element){
 string AbstractList::getElmt(int i){
 	if(i >= m_size){
         handleOutOfBounds();
+        return NULL_STRING;
     }
 	return m_elements[i];
 }
@@ -96,7 +103,7 @@ void AbstractList::copyValidStrs(){
     
     int k = 0;
 	for(int i = 0; i < m_size; i++){
-        if(m_elements[i] != DELETED_SENTINEL)
+        if(m_elements[i] != NULL_STRING)
 		    newElements[k++] = m_elements[i];
 	}
     m_size = k;
@@ -123,10 +130,24 @@ bool AbstractList::remove(string element){
     if(index == - 1)
 		return false;
 
-    m_elements[index] = DELETED_SENTINEL;
+    m_elements[index] = NULL_STRING;
     copyValidStrs(); // handles m_size update internally
     
     return true;
+}
+
+void AbstractList::placeAt(int i, string value){
+	if(m_readOnly)
+		return;
+
+	if(i >= m_size)
+		handleOutOfBounds();
+    string atIndex = getElmt(i);
+    if(atIndex != NULL_STRING){
+        cout << atIndex <<" replaced by "<< value << endl;
+    }
+
+    m_elements[i] = value;
 }
 
 #endif // ABSTRACT_LIST_H

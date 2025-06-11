@@ -5,12 +5,9 @@ using namespace std;
 
 class List : public AbstractList{
 	public:
-		List();
-		
-		void set(int i, string value);
+		List(): AbstractList(){};
 
 	private:
 		friend class ListTest;
-		enum {INITIAL_CAPACITY = 10};
 };
 #endif // LIST_H

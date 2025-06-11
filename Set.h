@@ -1,17 +1,14 @@
 #ifndef SET_H
 #define SET_H
-#include "AbstractSet.h"
-#include "List.h"
+#include "AbstractList.h"
+
 #include <string>
 using namespace std;
 
 class Set : public AbstractList{
 	public:
-		Set();
-
+		Set() : AbstractList() {};
 		void Setify(List& l);			
-		bool remove(string element);
-		
-	private:
+		void add(string element) override;			
 };
 #endif // SET_H
