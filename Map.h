@@ -17,22 +17,28 @@ class Map : public AbstractList{
         bool contains(string value);
         bool containsKey(string key);
         
-        int getSize();
-        void reSize(int i);
+        int nextPrime(int num);
+
+        int getSize() override;
+        void reSize();
+
         string getKey(string key);
-        int getValue(string key);
+        string getVal(string key);
         int getCapacity();
 
         void setReadOnly(bool b);
-            
+        
+        
     private:
-        // Set m_keys;
-        string *m_keys;
-        string *m_values;
+        Set* m_keys;
+        List* m_values;
         enum { INITIAL_CAPACITY = 10 };
+        int initTS = nextPrime(INITIAL_CAPACITY);
+        
         int m_capacity;
         int m_size;
         bool m_readOnly;
 };
+
 
 #endif // MAP_H

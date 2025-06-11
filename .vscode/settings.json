@@ -106,5 +106,6 @@
     "text_encoding": "cpp",
     "typeinfo": "cpp",
     "variant": "cpp"
-  }
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
