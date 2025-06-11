@@ -17,5 +17,5 @@ class AbstractCollection{
 		void addAll(AbstractCollection& c){};
 		virtual void add(string key, string value){};
 		virtual void add(string element) = 0;
-	};
+};
 #endif // ABSTRACT_COLLECTION_H

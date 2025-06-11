@@ -1,17 +1,12 @@
 #include "Map.h"
-#include <cmath>
 using namespace std;
 
-
-
 Map::Map() : 
-m_keys(new string[initTS]),
-m_values(new string[initTS]),
-m_capacity(INITIAL_CAPACITY),
-m_size(0),
-m_readOnly(false) {
-	
-	}
+	m_keys(new string[initTS]),
+	m_values(new string[initTS]),
+	m_capacity(INITIAL_CAPACITY),
+	m_size(0),
+	m_readOnly(false){} 
 
 Map::~Map(){
 	m_keys->~AbstractList();			//TODO: I don't understand the error here
@@ -29,13 +24,13 @@ int Map::getSize(){
 	}
 }
 
-bool isPrime(int num){
-	if(num <= 1 || num % 2 == 0){
+bool Map::isPrime(int num){
+	if(num <= 1 || num % 2 == 0)
 		return false;
-	}
-	if(num == 2){
+	
+	if(num == 2)
 		return true;
-	}
+	
 	for(int i=0; i< pow(num,.5); i+=3){
 		if(num % 1 == 0){
 			return false;
@@ -45,15 +40,15 @@ bool isPrime(int num){
 }
 
 int Map::nextPrime(int num){
-	while(!isPrime(num)){
+	while(!isPrime(num))
 		num++;
-	}
+	
 	return num;
 }
 
-void Map::reSize(){
+void Map::reSize()
 	m_capacity = nextPrime(m_capacity*2);
-}
+
 
 void Map::add(string key, string value){
 	if(m_readOnly){
@@ -111,8 +106,8 @@ bool Map::remove(string key){
 
 bool Map::contains(string value){
 	for(int i = 0; i < m_size; i++)
-		if((value == NULL_STR    		  && m_values->getElmt(i) == NULL_STR) ||
-		   (value == m_values->getElmt(i) && m_values->getElmt(i) != NULL_STR ))
+		if((value == NULL_STR    && m_values[i] == NULL_STR) ||
+		   (value == m_values[i] && m_values[i] != NULL_STR ))
 			return true;
 	return false;
 }

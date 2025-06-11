@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "Set.h"
+#include <cmath>
 using namespace std;
 
 class Map : public AbstractList{
@@ -17,6 +18,7 @@ class Map : public AbstractList{
         bool contains(string value);
         bool containsKey(string key);
         
+        bool isPrime(int num);
         int nextPrime(int num);
 
         int getSize() override;
@@ -26,9 +28,6 @@ class Map : public AbstractList{
         string getVal(string key);
         int getCapacity();
 
-        void setReadOnly(bool b);
-        
-        
     private:
         Set* m_keys;
         List* m_values;
@@ -39,6 +38,4 @@ class Map : public AbstractList{
         int m_size;
         bool m_readOnly;
 };
-
-
 #endif // MAP_H
