@@ -3,6 +3,8 @@
 #include "AbstractCollection.h"
 #include <string>
 
+const std::string DELETED_SENTINEL = "\x01\x02\x03__DELETED__\x04\x05\x06";
+
 class AbstractList : public AbstractCollection{
     protected:
         enum {INITIAL_CAPACITY = 10};
@@ -28,8 +30,8 @@ class AbstractList : public AbstractCollection{
         void setReadOnly(bool b);
         
         void add(string element);
-        void reSize(int scale);
-        void copyOver();
+        void growToSize(int scale);
+        void copyValidStrs();
         
         void handleOutOfBounds();
 }; 
@@ -63,10 +65,6 @@ void AbstractList::handleOutOfBounds(){
     throw e;
 }
 
-bool AbstractList::contains(string element){
-    return elmtIndex(element) != -1;
-}
-
 int AbstractList::elmtIndex(string element){
 	for(int i = 0; i < m_size; i++)
 		if(getElmt(i) == element)
@@ -74,18 +72,8 @@ int AbstractList::elmtIndex(string element){
 	return -1;
 }
 
-bool AbstractList::remove(string element){
-	if(m_readOnly)
-		return false;
-        
-    if(!contains(element))
-		return false;
-
-    reSize(-1);
-    copyOver();
-    m_size--;
-    
-    return true;
+bool AbstractList::contains(string element){
+    return elmtIndex(element) != -1;
 }
 
 string AbstractList::getElmt(int i){
@@ -95,32 +83,50 @@ string AbstractList::getElmt(int i){
 	return m_elements[i];
 }
 
-void AbstractList::reSize(int scale){
+void AbstractList::growToSize(int scale=1){
 	int newSize = m_size + scale;
 	if(newSize > m_capacity){
 		m_capacity += INITIAL_CAPACITY; //Scale by 10s
 	}
+    m_size = newSize;
 }
 
-void AbstractList::copyOver(){
+void AbstractList::copyValidStrs(){
+    string* newElements = new string[m_capacity];
+    
     int k = 0;
-	string* newElements = new string[m_capacity];
 	for(int i = 0; i < m_size; i++){
-        if(m_elements[i] != "")
+        if(m_elements[i] != DELETED_SENTINEL)
 		    newElements[k++] = m_elements[i];
 	}
-	delete[] m_elements;
+    m_size = k;
+
+    delete[] m_elements;
 	m_elements = newElements;
 }
 
 void AbstractList::add(string element){
-	reSize(1);
-	copyOver();
-	m_elements[m_size++] = element;
-
 	if(m_readOnly)
 		return;
+	
+    growToSize();
+	copyValidStrs();
+
+	m_elements[m_size-1] = element;
 }
 
+bool AbstractList::remove(string element){
+	if(m_readOnly)
+		return false;
+
+    int index = elmtIndex(element);
+    if(index == - 1)
+		return false;
+
+    m_elements[index] = DELETED_SENTINEL;
+    copyValidStrs(); // handles m_size update internally
+    
+    return true;
+}
 
 #endif // ABSTRACT_LIST_H
