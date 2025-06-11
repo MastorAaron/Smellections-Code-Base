@@ -1,6 +1,5 @@
 #ifndef ABSTRACT_COLLECTION_H
 #define ABSTRACT_COLLECTION_H
-#include "Collection.h"
 
 using namespace std;
 class AbstractCollection{

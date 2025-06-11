@@ -1,6 +1,7 @@
 #ifndef SET_H
 #define SET_H
 #include "AbstractList.h"
+#include "List.h"
 
 #include <string>
 using namespace std;
